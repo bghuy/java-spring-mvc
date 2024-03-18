@@ -1,5 +1,7 @@
 package vn.bachgiahuy.laptopshop.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import vn.bachgiahuy.laptopshop.domain.User;
@@ -13,8 +15,12 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public String handleHelloWorld() {
-        return "eric";
+    public List<User> getAllUsers() {
+        return this.userRepository.findAll();
+    }
+
+    public List<User> getAllUsersByEmail(String email) {
+        return this.userRepository.findByEmail(email);
     }
 
     public User saveUser(User user) {

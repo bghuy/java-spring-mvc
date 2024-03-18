@@ -1,5 +1,7 @@
 package vn.bachgiahuy.laptopshop.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,11 +26,23 @@ public class UserController {
 
     @RequestMapping("/")
     public String getHomePage(Model model) {
+        List<User> arrUsers = this.userService.getAllUsers();
+        System.out.println(arrUsers);
+        List<User> usersWithEmail = this.userService.getAllUsersByEmail("admin@gmail.com");
+        System.out.println(usersWithEmail);
         model.addAttribute("eric", "user");
         return "hello";
     }
 
     @RequestMapping("/admin/user")
+    public String getUserPage(Model model) {
+        List<User> users = this.userService.getAllUsers();
+        System.out.println("users: " + users);
+        model.addAttribute("users", users);
+        return "/admin/user/user";
+    }
+
+    @RequestMapping("/admin/user/create")
     public String getCreateUserPage(Model model) {
         model.addAttribute("newUser", new User());
         return "/admin/user/create";
@@ -39,7 +53,7 @@ public class UserController {
         System.out.println(newUser.toString());
         User savedUser = this.userService.saveUser(newUser);
         System.out.println(savedUser);
-        return "redirect:/";
+        return "redirect:/admin/user";
     }
 
 }
