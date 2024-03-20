@@ -12,25 +12,35 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
     <!-- Latest compiled JavaScript-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <title>Create user</title>
+    <title>Update user</title>
   </head>
   <body>
     <!-- center the form bellow -->
     <div class="container mt-4">
       <div class="row">
         <div class="col-md-6 col-12 mx-auto">
-          <h3>Create a user</h3>
+          <h3>Update user</h3>
           <hr />
           <form:form
-            action="/admin/user/create"
+            action="/admin/user/update"
             method="post"
             modelAttribute="newUser"
           >
+            <div class="mb-3" hidden="true">
+              <label class="form-label">ID:</label>
+              <form:input type="text" class="form-control" path="id" />
+            </div>
+
             <div class="mb-3">
               <label class="form-label">Email:</label>
-              <form:input type="email" class="form-control" path="email" />
+              <form:input
+                type="email"
+                class="form-control"
+                path="email"
+                disabled="true"
+              />
             </div>
-            <div class="mb-3">
+            <div class="mb-3" hidden="true">
               <label class="form-label">Password:</label>
               <form:input
                 type="password"
@@ -50,7 +60,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
               <label class="form-label">Address:</label>
               <form:input type="text" class="form-control" path="address" />
             </div>
-            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="submit" class="btn btn-warning">Update</button>
           </form:form>
         </div>
       </div>

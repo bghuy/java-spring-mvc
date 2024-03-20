@@ -5,7 +5,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Table users</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -41,11 +41,20 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                   <td>${user.email}</td>
                   <td>${user.fullName}</td>
                   <td class="d-flex flex-column flex-md-row">
-                    <button class="btn btn-success">View</button>
-                    <button class="btn btn-warning mx-0 mx-md-2 my-2 my-md-0">
+                    <a class="btn btn-success" href="/admin/user/${user.id}"
+                      >View</a
+                    >
+                    <a
+                      class="btn btn-warning mx-0 mx-md-2 my-2 my-md-0"
+                      href="/admin/user/update/${user.id}"
+                    >
                       Update
-                    </button>
-                    <button class="btn btn-danger">Delete</button>
+                    </a>
+                    <a
+                      class="btn btn-danger"
+                      href="/admin/user/delete/${user.id}"
+                      >Delete</a
+                    >
                   </td>
                 </tr>
               </c:forEach>
