@@ -58,6 +58,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                       <li class="list-group-item">
                         FullName: ${user.fullName}
                       </li>
+                      <li class="list-group-item">Role: ${user.role.name}</li>
                       <li class="list-group-item">Address: ${user.address}</li>
                     </ul>
                   </div>

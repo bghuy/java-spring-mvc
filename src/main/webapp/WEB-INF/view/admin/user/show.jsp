@@ -58,6 +58,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                         <th scope="col">ID</th>
                         <th scope="col">Email</th>
                         <th scope="col">Full Name</th>
+                        <th scope="col">Role</th>
                         <th scope="col">Action</th>
                       </tr>
                     </thead>
@@ -67,6 +68,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                           <th scope="row">${user.id}</th>
                           <td>${user.email}</td>
                           <td>${user.fullName}</td>
+                          <td>${user.role.name}</td>
                           <td class="d-flex flex-column flex-md-row">
                             <a
                               class="btn btn-success"
