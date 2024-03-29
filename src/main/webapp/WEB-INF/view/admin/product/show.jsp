@@ -11,7 +11,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <meta name="description" content="Dự án laptopshop" />
-    <meta name="author" content="Hỏi Dân IT" />
+    <meta name="author" content="Bạch Gia Huy" />
     <title>Dashboard</title>
     <link
       href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
@@ -40,7 +40,33 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                 <a href="/admin/product">Products</a>
               </li>
             </ol>
-            <div>product</div>
+            <div class="mt-4">
+              <div class="row">
+                <div class="user-container col-12 mx-auto">
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <h1>Table of products</h1>
+                    <a href="/admin/product/create" class="btn btn-primary"
+                      >Create new product</a
+                    >
+                  </div>
+                  <hr />
+                  <table class="table table-hover table-bordered">
+                    <thead class="table-dark">
+                      <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Factory</th>
+                        <th scope="col">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
         </main>
         <jsp:include page="../layout/footer.jsp" />
@@ -50,6 +76,6 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
       crossorigin="anonymous"
     ></script>
-    <script src="js/admin/dashboard/scripts.js"></script>
+    <script src="/js/admin/dashboard/scripts.js"></script>
   </body>
 </html>

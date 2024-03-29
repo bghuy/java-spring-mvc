@@ -42,85 +42,103 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
       <div id="layoutSidenav_content">
         <main>
           <div class="container-fluid px-4">
-            <h1 class="mt-4">Create new user</h1>
+            <h1 class="mt-4">Manage products</h1>
             <ol class="breadcrumb mb-4">
               <li class="breadcrumb-item active">
                 <a href="/admin">Dashboard</a>
               </li>
               <li class="breadcrumb-item active">
-                <a href="/admin/user">User</a>
+                <a href="/admin/product">Products</a>
               </li>
               <li class="breadcrumb-item active">
-                <a href="/admin/user/create">Create</a>
+                <a href="/admin/product/create">Create</a>
               </li>
             </ol>
             <div class="mt-4">
               <div class="row">
                 <div class="col-md-6 col-12 mx-auto">
-                  <h3>Create a user</h3>
+                  <h3>Create a product</h3>
                   <hr />
                   <form:form
                     action="/admin/user/create"
                     method="post"
-                    modelAttribute="newUser"
+                    modelAttribute="newProduct"
                     class="row"
                     enctype="multipart/form-data"
                   >
                     <div class="mb-3 col-12 col-md-6">
-                      <label class="form-label">Email:</label>
-                      <form:input
-                        type="email"
-                        class="form-control"
-                        path="email"
-                      />
-                    </div>
-                    <div class="mb-3 col-12 col-md-6">
-                      <label class="form-label">Password:</label>
-                      <form:input
-                        type="password"
-                        class="form-control"
-                        path="password"
-                      />
-                    </div>
-                    <div class="mb-3 col-12 col-md-6">
-                      <label class="form-label">Phone number:</label>
+                      <label class="form-label">Name:</label>
                       <form:input
                         type="text"
                         class="form-control"
-                        path="phone"
+                        path="name"
                       />
                     </div>
                     <div class="mb-3 col-12 col-md-6">
-                      <label class="form-label">Full Name:</label>
+                      <label class="form-label">Price:</label>
                       <form:input
                         type="text"
                         class="form-control"
-                        path="fullName"
+                        path="price"
                       />
                     </div>
                     <div class="mb-3 col-12">
-                      <label class="form-label">Address:</label>
+                      <label class="form-label">Desciptions:</label>
+                      <form:textarea
+                        class="form-control"
+                        rows="2"
+                        path="detailDesc"
+                      ></form:textarea>
+                    </div>
+                    <div class="mb-3 col-12 col-md-6">
+                      <label class="form-label">Short description:</label>
                       <form:input
                         type="text"
                         class="form-control"
-                        path="address"
+                        path="shortDesc"
                       />
                     </div>
                     <div class="mb-3 col-12 col-md-6">
-                      <label class="form-label">Role:</label>
-                      <form:select class="form-select" path="role.name">
-                        <form:option value="ADMIN">ADMIN</form:option>
-                        <form:option value="USER">USER</form:option>
+                      <label class="form-label">Quantity:</label>
+                      <form:input
+                        type="text"
+                        class="form-control"
+                        path="quantity"
+                      />
+                    </div>
+                    <div class="mb-3 col-12 col-md-6">
+                      <label class="form-label">Factory:</label>
+                      <form:select class="form-select" path="factory">
+                        <form:option value="Apple">Apple</form:option>
+                        <form:option value="Asus">Asus</form:option>
+                        <form:option value="Lenovo">Lenovo</form:option>
+                        <form:option value="Dell">Dell</form:option>
+                        <form:option value="LG">LG</form:option>
+                        <form:option value="Acer">Acer</form:option>
                       </form:select>
                     </div>
                     <div class="mb-3 col-12 col-md-6">
-                      <label for="avatarFile" class="form-label">Avatar:</label>
+                      <label class="form-label">Target:</label>
+                      <form:select class="form-select" path="target">
+                        <form:option value="Gaming">Gaming</form:option>
+                        <form:option value="SINHVIEN-VANPHONG"
+                          >Sinh viên - Văn phòng
+                        </form:option>
+                        <form:option value="THIET-KE-DO-HOA"
+                          >Thiết kế đồ họa
+                        </form:option>
+                        <form:option value="MONG-NHE">Mỏng nhẹ</form:option>
+                        <form:option value="DOANH-NHAN">Doanh nhân</form:option>
+                      </form:select>
+                    </div>
+                    <div class="mb-3 col-12 col-md-6">
+                      <label for="avatarFile" class="form-label">Image:</label>
                       <input
                         class="form-control"
                         type="file"
                         id="avatarFile"
                         accept=".png,.jpg,.jpeg"
-                        name="avatarFile"
+                        name="imgFile"
                       />
                     </div>
                     <div class="mb-3 col-12">
@@ -130,6 +148,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                         style="display: none; max-height: 250px"
                       />
                     </div>
+
                     <div class="mb-5 col-12">
                       <button type="submit" class="btn btn-primary">
                         Create
@@ -148,6 +167,6 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
       crossorigin="anonymous"
     ></script>
-    <script src="js/admin/dashboard/scripts.js"></script>
+    <script src="/js/admin/dashboard/scripts.js"></script>
   </body>
 </html>

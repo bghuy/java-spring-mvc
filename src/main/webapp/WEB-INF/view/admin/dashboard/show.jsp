@@ -11,7 +11,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <meta name="description" content="Dự án laptopshop" />
-    <meta name="author" content="Hỏi Dân IT" />
+    <meta name="author" content="Bạch Gia Huy" />
     <title>Dashboard</title>
     <link
       href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
