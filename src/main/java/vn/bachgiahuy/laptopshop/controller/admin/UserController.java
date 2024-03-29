@@ -85,12 +85,15 @@ public class UserController {
 
     @PostMapping("/admin/user/create")
     public String createUser(@ModelAttribute("newUser") @Valid User newUser,
-            BindingResult bindingResult,
+            BindingResult newUserBindingResult,
             @RequestParam("avatarFile") MultipartFile file) {
 
-        List<FieldError> errors = bindingResult.getFieldErrors();
+        List<FieldError> errors = newUserBindingResult.getFieldErrors();
         for (FieldError error : errors) {
-            System.out.println(">>>>>>>>" + error.getObjectName() + "- " + error.getDefaultMessage());
+            System.out.println(">>>>>>>>" + error.getField() + "- " + error.getDefaultMessage());
+        }
+        if (newUserBindingResult.hasErrors()) {
+            return "/admin/user/create";
         }
         String avatar = this.uploadService.handleSaveUpLoadFile(file, "avatar");
         String hashedPassword = this.passwordEncoder.encode(newUser.getPassword());
@@ -100,7 +103,7 @@ public class UserController {
         newUser.setRole(role);
         User savedUser = this.userService.saveUser(newUser);
         System.out.println(avatar);
-        return "redirect:/admin/user";
+        return "redirect:/admin/user/create";
     }
 
     @GetMapping("/admin/user/delete/{id}")

@@ -2,6 +2,7 @@ package vn.bachgiahuy.laptopshop.domain;
 
 import java.util.List;
 
+import io.micrometer.common.lang.NonNull;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,6 +13,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -23,15 +25,15 @@ public class User {
     private long id;
 
     @NotNull
-    @Email
+    @Email(message = "Email is not valid", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
     private String email;
 
-    @NotNull
-    @Min(2)
+    @NotNull(message = "Password cannot be empty")
+    @Size(min = 2, message = "Password must have at least 2 characters")
     private String password;
 
-    @NotNull
-    @Min(2)
+    @NotNull(message = "Name cannot be empty")
+    @Size(min = 3, message = "Your name must have at least 3 characters")
     private String fullName;
 
     private String address;

@@ -67,20 +67,28 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                     enctype="multipart/form-data"
                   >
                     <div class="mb-3 col-12 col-md-6">
+                      <c:set var="emailError">
+                        <form:errors path="email" />
+                      </c:set>
                       <label class="form-label">Email:</label>
                       <form:input
                         type="email"
-                        class="form-control"
+                        class="form-control ${not empty emailError? 'is-invalid':''}"
                         path="email"
                       />
+                      <form:errors path="email" class="invalid-feedback" />
                     </div>
                     <div class="mb-3 col-12 col-md-6">
+                      <c:set var="passwordError">
+                        <form:errors path="password" />
+                      </c:set>
                       <label class="form-label">Password:</label>
                       <form:input
                         type="password"
-                        class="form-control"
+                        class="form-control ${not empty passwordError? 'is-invalid':''}"
                         path="password"
                       />
+                      <form:errors path="password" class="invalid-feedback" />
                     </div>
                     <div class="mb-3 col-12 col-md-6">
                       <label class="form-label">Phone number:</label>
@@ -91,12 +99,16 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                       />
                     </div>
                     <div class="mb-3 col-12 col-md-6">
+                      <c:set var="fullNameError">
+                        <form:errors path="fullName" />
+                      </c:set>
                       <label class="form-label">Full Name:</label>
                       <form:input
                         type="text"
-                        class="form-control"
+                        class="form-control ${not empty fullNameError? 'is-invalid':''}"
                         path="fullName"
                       />
+                      <form:errors path="fullName" class="invalid-feedback" />
                     </div>
                     <div class="mb-3 col-12">
                       <label class="form-label">Address:</label>
@@ -148,6 +160,6 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
       crossorigin="anonymous"
     ></script>
-    <script src="js/admin/dashboard/scripts.js"></script>
+    <script src="/js/admin/dashboard/scripts.js"></script>
   </body>
 </html>
