@@ -4,10 +4,13 @@ import java.util.List;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.validation.Valid;
 import vn.bachgiahuy.laptopshop.domain.Role;
 import vn.bachgiahuy.laptopshop.domain.User;
 import vn.bachgiahuy.laptopshop.service.UploadService;
@@ -81,8 +84,14 @@ public class UserController {
     }
 
     @PostMapping("/admin/user/create")
-    public String createUser(Model model, @ModelAttribute("newUser") User newUser,
+    public String createUser(@ModelAttribute("newUser") @Valid User newUser,
+            BindingResult bindingResult,
             @RequestParam("avatarFile") MultipartFile file) {
+
+        List<FieldError> errors = bindingResult.getFieldErrors();
+        for (FieldError error : errors) {
+            System.out.println(">>>>>>>>" + error.getObjectName() + "- " + error.getDefaultMessage());
+        }
         String avatar = this.uploadService.handleSaveUpLoadFile(file, "avatar");
         String hashedPassword = this.passwordEncoder.encode(newUser.getPassword());
         Role role = this.userService.getRoleByName(newUser.getRole().getName());
