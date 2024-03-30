@@ -102,7 +102,6 @@ public class UserController {
         newUser.setAvatar(avatar);
         newUser.setRole(role);
         User savedUser = this.userService.saveUser(newUser);
-        System.out.println(avatar);
         return "redirect:/admin/user/create";
     }
 

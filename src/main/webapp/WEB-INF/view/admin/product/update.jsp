@@ -12,7 +12,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
     />
     <meta name="description" content="Dự án laptopshop" />
     <meta name="author" content="Bạch Gia Huy" />
-    <title>Dashboard</title>
+    <title>Update product</title>
     <link
       href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
       rel="stylesheet"
@@ -26,6 +26,12 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
     <script>
       $(document).ready(() => {
         const avatarFile = $("#avatarFile");
+        const orgImage = "${newProduct.image}";
+        if (orgImage) {
+          const urlImage = "/images/product/" + orgImage;
+          $("#avatarPreview").attr("src", urlImage);
+          $("#avatarPreview").css({ display: "block" });
+        }
         avatarFile.change(function (e) {
           const imgURL = URL.createObjectURL(e.target.files[0]);
           $("#avatarPreview").attr("src", imgURL);
@@ -42,34 +48,48 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
       <div id="layoutSidenav_content">
         <main>
           <div class="container-fluid px-4">
-            <h1 class="mt-4">Manage products</h1>
+            <h1 class="mt-4">Update product</h1>
             <ol class="breadcrumb mb-4">
               <li class="breadcrumb-item active">
                 <a href="/admin">Dashboard</a>
               </li>
               <li class="breadcrumb-item active">
-                <a href="/admin/product">Products</a>
+                <a href="/admin/product">Product</a>
               </li>
-              <li class="breadcrumb-item active">
-                <a href="/admin/product/create">Create</a>
-              </li>
+              <li class="breadcrumb-item active">Update/${product.id}</li>
             </ol>
             <div class="mt-4">
               <div class="row">
                 <div class="col-md-6 col-12 mx-auto">
-                  <h3>Create a product</h3>
+                  <h3>Update product</h3>
                   <hr />
                   <form:form
-                    action="/admin/product/create"
+                    action="/admin/product/update"
                     method="post"
                     modelAttribute="newProduct"
                     class="row"
                     enctype="multipart/form-data"
                   >
+                    <c:set var="nameError">
+                      <form:errors path="name" />
+                    </c:set>
+                    <c:set var="priceError">
+                      <form:errors path="name" />
+                    </c:set>
+                    <c:set var="detailDescriptionError">
+                      <form:errors path="detailDesc" />
+                    </c:set>
+                    <c:set var="shortDescriptionError">
+                      <form:errors path="shortDesc" />
+                    </c:set>
+                    <c:set var="quantityError">
+                      <form:errors path="quantity" />
+                    </c:set>
+                    <div class="mb-3 col-12 col-md-6" hidden="true">
+                      <label class="form-label">ID:</label>
+                      <form:input type="text" class="form-control" path="id" />
+                    </div>
                     <div class="mb-3 col-12 col-md-6">
-                      <c:set var="nameError">
-                        <form:errors path="name" />
-                      </c:set>
                       <label class="form-label">Name:</label>
                       <form:input
                         type="text"
@@ -79,22 +99,17 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                       <form:errors path="name" class="invalid-feedback" />
                     </div>
                     <div class="mb-3 col-12 col-md-6">
-                      <c:set var="priceError">
-                        <form:errors path="name" />
-                      </c:set>
                       <label class="form-label">Price:</label>
                       <form:input
                         type="number"
                         class="form-control ${not empty priceError? 'is-invalid':''}"
                         path="price"
+                        value="${String.format('%.0f', product.price)}"
                       />
                       <form:errors path="price" class="invalid-feedback" />
                     </div>
                     <div class="mb-3 col-12">
-                      <c:set var="detailDescriptionError">
-                        <form:errors path="detailDesc" />
-                      </c:set>
-                      <label class="form-label">Desciptions:</label>
+                      <label class="form-label">Detail description:</label>
                       <form:textarea
                         class="form-control ${not empty detailDescriptionError? 'is-invalid':''}"
                         rows="2"
@@ -103,9 +118,6 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                       <form:errors path="detailDesc" class="invalid-feedback" />
                     </div>
                     <div class="mb-3 col-12 col-md-6">
-                      <c:set var="shortDescriptionError">
-                        <form:errors path="shortDesc" />
-                      </c:set>
                       <label class="form-label">Short description:</label>
                       <form:input
                         type="text"
@@ -115,13 +127,13 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                       <form:errors path="shortDesc" class="invalid-feedback" />
                     </div>
                     <div class="mb-3 col-12 col-md-6">
-                      <c:set var="quantityError">
-                        <form:errors path="quantity" />
-                      </c:set>
-                      <label class="form-label">Quantity:</label>
+                      <label
+                        class="form-label ${not empty quantityError? 'is-invalid':''}"
+                        >Quantity:</label
+                      >
                       <form:input
                         type="number"
-                        class="form-control ${not empty quantityError? 'is-invalid':''}"
+                        class="form-control"
                         path="quantity"
                       />
                       <form:errors path="quantity" class="invalid-feedback" />
@@ -170,8 +182,11 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                     </div>
 
                     <div class="mb-5 col-12">
+                      <a href="/admin/product" class="btn btn-success me-2"
+                        >Back</a
+                      >
                       <button type="submit" class="btn btn-primary">
-                        Create
+                        Save
                       </button>
                     </div>
                   </form:form>

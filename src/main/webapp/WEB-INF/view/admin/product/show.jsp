@@ -62,7 +62,38 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                         <th scope="col">Action</th>
                       </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                      <c:forEach
+                        var="product"
+                        items="${products}"
+                        varStatus="loop"
+                      >
+                        <tr>
+                          <th scope="row">${product.id}</th>
+                          <td>${product.name}</td>
+                          <td>${String.format("%.0f", product.price)}</td>
+                          <td>${product.factory}</td>
+                          <td class="d-flex flex-column flex-md-row">
+                            <a
+                              class="btn btn-success"
+                              href="/admin/product/${product.id}"
+                              >View</a
+                            >
+                            <a
+                              class="btn btn-warning mx-0 mx-md-2 my-2 my-md-0"
+                              href="/admin/product/update/${product.id}"
+                            >
+                              Update
+                            </a>
+                            <a
+                              class="btn btn-danger"
+                              href="/admin/product/delete/${product.id}"
+                              >Delete</a
+                            >
+                          </td>
+                        </tr>
+                      </c:forEach>
+                    </tbody>
                   </table>
                 </div>
               </div>

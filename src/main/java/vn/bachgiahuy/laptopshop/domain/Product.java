@@ -2,12 +2,17 @@ package vn.bachgiahuy.laptopshop.domain;
 
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "products")
@@ -15,12 +20,30 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @NotNull
+    @NotEmpty(message = "Name must not be empty")
     private String name;
+
+    @NotNull
+    @DecimalMin(value = "0", inclusive = false, message = "Price must be greater than 0")
     private double price;
+
     private String image;
+
+    @NotNull
+    @NotEmpty(message = "Detail description must not be empty")
+    @Column(columnDefinition = "MEDIUMTEXT")
     private String detailDesc;
+
+    @NotNull
+    @NotEmpty(message = "Short description must not be empty")
     private String shortDesc;
+
+    @NotNull
+    @Min(value = 1, message = "Quantity must be greater than 1")
     private long quantity;
+
     private long sold;
     private String factory;
     private String target;
