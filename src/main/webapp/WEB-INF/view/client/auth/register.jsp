@@ -41,14 +41,21 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                       <div class="row mb-3">
                         <div class="col-md-6">
                           <div class="form-floating mb-3 mb-md-0">
+                            <c:set var="firstNameError">
+                              <form:errors path="firstName" />
+                            </c:set>
                             <form:input
-                              class="form-control"
+                              class="form-control ${not empty firstNameError ? 'is-invalid':''}"
                               id="inputFirstName"
                               type="text"
                               placeholder="Enter your first name"
                               path="firstName"
                             />
                             <label for="inputFirstName">First name</label>
+                            <form:errors
+                              path="firstName"
+                              class="invalid-feedback"
+                            />
                           </div>
                         </div>
                         <div class="col-md-6">
@@ -134,7 +141,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                   </div>
                   <div class="card-footer text-center py-3">
                     <div class="small">
-                      <a href="login.html">Have an account? Go to login</a>
+                      <a href="/login">Have an account? Go to login</a>
                     </div>
                   </div>
                 </div>
