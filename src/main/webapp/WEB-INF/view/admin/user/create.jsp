@@ -73,7 +73,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                       <label class="form-label">Email:</label>
                       <form:input
                         type="email"
-                        class="form-control ${not empty emailError? 'is-invalid':''}"
+                        class="form-control ${not empty emailError ? 'is-invalid':''}"
                         path="email"
                       />
                       <form:errors path="email" class="invalid-feedback" />

@@ -65,32 +65,46 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                         </div>
                       </div>
                       <div class="form-floating mb-3">
+                        <c:set var="emailError">
+                          <form:errors path="email" />
+                        </c:set>
                         <form:input
-                          class="form-control"
+                          class="form-control ${not empty emailError ? 'is-invalid':''}"
                           id="inputEmail"
                           type="email"
                           placeholder="name@example.com"
                           path="email"
                         />
                         <label for="inputEmail">Email address</label>
+                        <form:errors path="email" class="invalid-feedback" />
                       </div>
                       <div class="row mb-3">
                         <div class="col-md-6">
                           <div class="form-floating mb-3 mb-md-0">
+                            <c:set var="passwordError">
+                              <form:errors path="password" />
+                            </c:set>
                             <form:input
-                              class="form-control"
+                              class="form-control ${not empty passwordError ? 'is-invalid':''}"
                               id="inputPassword"
                               type="password"
                               placeholder="Create a password"
                               path="password"
                             />
                             <label for="inputPassword">Password</label>
+                            <form:errors
+                              path="password"
+                              class="invalid-feedback"
+                            />
                           </div>
                         </div>
                         <div class="col-md-6">
                           <div class="form-floating mb-3 mb-md-0">
+                            <c:set var="confirmPasswordError">
+                              <form:errors path="confirmPassword" />
+                            </c:set>
                             <form:input
-                              class="form-control"
+                              class="form-control ${not empty confirmPasswordError ? 'is-invalid':''}"
                               id="inputPasswordConfirm"
                               type="password"
                               placeholder="Confirm password"
@@ -99,6 +113,10 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                             <label for="inputPasswordConfirm"
                               >Confirm Password</label
                             >
+                            <form:errors
+                              path="confirmPassword"
+                              class="invalid-feedback"
+                            />
                           </div>
                         </div>
                       </div>
