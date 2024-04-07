@@ -23,7 +23,9 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
       <form
         class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0"
       >
-        <span style="color: white">Welcome, bạch gia huy</span>
+        <span style="color: white"
+          ><c:out value="${pageContext.request.userPrincipal.name}"
+        /></span>
         <!-- <div class="input-group">
                     <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..."
                         aria-describedby="btnNavbarSearch" />
@@ -52,7 +54,16 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
             <li>
               <hr class="dropdown-divider" />
             </li>
-            <li><a class="dropdown-item" href="#!">Logout</a></li>
+            <li>
+              <form action="/logout" method="post">
+                <input
+                  type="hidden"
+                  name="${_csrf.parameterName}"
+                  value="${_csrf.token}"
+                />
+                <button class="dropdown-item">Logout</button>
+              </form>
+            </li>
           </ul>
         </li>
       </ul>

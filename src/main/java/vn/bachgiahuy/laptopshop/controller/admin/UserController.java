@@ -35,32 +35,33 @@ public class UserController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @RequestMapping("/")
-    public String getHomePage(Model model) {
-        List<User> arrUsers = this.userService.getAllUsers();
-        List<User> usersWithEmail = this.userService.getAllUsersByEmail("admin@gmail.com");
-        model.addAttribute("eric", "user");
-        return "hello";
-    }
+    // @RequestMapping("/")
+    // public String getHomePage(Model model) {
+    // List<User> arrUsers = this.userService.getAllUsers();
+    // List<User> usersWithEmail =
+    // this.userService.getAllUsersByEmail("admin@gmail.com");
+    // model.addAttribute("eric", "user");
+    // return "hello";
+    // }
 
     @RequestMapping("/admin/user")
     public String getUserPage(Model model) {
         List<User> users = this.userService.getAllUsers();
         model.addAttribute("users", users);
-        return "/admin/user/show";
+        return "admin/user/show";
     }
 
     @RequestMapping(value = "/admin/user/{id}", method = RequestMethod.GET)
     public String getUserDetailPage(Model model, @PathVariable long id) {
         User user = this.userService.getUserById(id);
         model.addAttribute("user", user);
-        return "/admin/user/detail";
+        return "admin/user/detail";
     }
 
     @GetMapping("/admin/user/create")
     public String getCreateUserPage(Model model) {
         model.addAttribute("newUser", new User());
-        return "/admin/user/create";
+        return "admin/user/create";
     }
 
     @RequestMapping("/admin/user/update/{id}")
@@ -68,7 +69,7 @@ public class UserController {
         User user = this.userService.getUserById(id);
         model.addAttribute("user", user);
         model.addAttribute("newUser", user);
-        return "/admin/user/update";
+        return "admin/user/update";
     }
 
     @PostMapping("/admin/user/update")
@@ -93,7 +94,7 @@ public class UserController {
             System.out.println(">>>>>>>>" + error.getField() + "- " + error.getDefaultMessage());
         }
         if (newUserBindingResult.hasErrors()) {
-            return "/admin/user/create";
+            return "admin/user/create";
         }
         String avatar = this.uploadService.handleSaveUpLoadFile(file, "avatar");
         String hashedPassword = this.passwordEncoder.encode(newUser.getPassword());
@@ -111,7 +112,7 @@ public class UserController {
         User user = new User();
         user.setId(id);
         model.addAttribute("user", user);
-        return "/admin/user/delete";
+        return "admin/user/delete";
     }
 
     @PostMapping("/admin/user/delete")
