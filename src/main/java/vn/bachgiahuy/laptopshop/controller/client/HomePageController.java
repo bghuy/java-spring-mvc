@@ -12,11 +12,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import vn.bachgiahuy.laptopshop.domain.Order;
 import vn.bachgiahuy.laptopshop.domain.Product;
 import vn.bachgiahuy.laptopshop.domain.Role;
 import vn.bachgiahuy.laptopshop.domain.User;
 import vn.bachgiahuy.laptopshop.domain.dto.RegisterDTO;
+import vn.bachgiahuy.laptopshop.service.OrderService;
 import vn.bachgiahuy.laptopshop.service.ProductService;
 import vn.bachgiahuy.laptopshop.service.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,11 +31,14 @@ public class HomePageController {
     private final ProductService productService;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
+    private final OrderService orderService;
 
-    public HomePageController(ProductService productService, UserService userService, PasswordEncoder passwordEncoder) {
+    public HomePageController(ProductService productService, UserService userService, PasswordEncoder passwordEncoder,
+            OrderService orderService) {
         this.productService = productService;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
+        this.orderService = orderService;
     }
 
     @GetMapping("/")
@@ -74,6 +81,17 @@ public class HomePageController {
     @GetMapping("/access-deny")
     public String getAccessDeniedPage(Model model) {
         return "client/auth/deny";
+    }
+
+    @GetMapping("/order-history")
+    public String getMethodName(Model model, HttpServletRequest request) {
+        User currentUser = new User();
+        HttpSession session = request.getSession(false);
+        long id = (long) session.getAttribute("id");
+        currentUser.setId(id);
+        List<Order> orders = this.orderService.fetchOrderByUser(currentUser);
+        model.addAttribute("orders", orders);
+        return "client/cart/order-history";
     }
 
 }

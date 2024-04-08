@@ -107,6 +107,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
                   <input
                     type="text"
                     class="form-control form-control-sm text-center border-0"
+                    data-cart-detail-index="0"
                     value="1"
                   />
                   <div class="input-group-btn">
@@ -117,12 +118,43 @@ uri="http://java.sun.com/jsp/jstl/fmt" %>
                     </button>
                   </div>
                 </div>
-                <a
+                <!-- <a
                   href="#"
                   class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"
                   ><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to
                   cart</a
+                > -->
+                <form
+                  action="/add-product-from-view-detail"
+                  method="post"
+                  modelAttribute="product"
                 >
+                  <input
+                    type="hidden"
+                    name="${_csrf.parameterName}"
+                    value="${_csrf.token}"
+                  />
+                  <input
+                    class="form-control"
+                    type="text"
+                    value="${product.id}"
+                    hidden="true"
+                    name="id"
+                  />
+                  <input
+                    class="form-control"
+                    type="text"
+                    hidden="true"
+                    name="quantity"
+                    id="cartDetails0.quantity"
+                  />
+                  <button
+                    class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"
+                  >
+                    <i class="fa fa-shopping-bag me-2 text-primary"></i>
+                    Add to cart
+                  </button>
+                </form>
               </div>
               <div class="col-lg-12">
                 <nav>

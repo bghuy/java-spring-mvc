@@ -44,7 +44,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
         </div>
         <div class="sb-sidenav-footer">
           <div class="small">Logged in as:</div>
-          user
+          ${sessionScope.email}
         </div>
       </nav>
     </div>
