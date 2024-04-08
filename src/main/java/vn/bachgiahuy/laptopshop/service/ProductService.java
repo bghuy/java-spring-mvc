@@ -13,6 +13,7 @@ import vn.bachgiahuy.laptopshop.domain.User;
 import vn.bachgiahuy.laptopshop.repository.CartDetailRepository;
 import vn.bachgiahuy.laptopshop.repository.CartRepository;
 import vn.bachgiahuy.laptopshop.repository.ProductRepository;
+import org.springframework.security.core.Authentication;
 
 @Service
 public class ProductService {
@@ -45,6 +46,10 @@ public class ProductService {
         this.productRepository.deleteById(id);
     }
 
+    public Cart fetchByUser(User user) {
+        return this.cartRepository.findByUser(user);
+    }
+
     public void handleAddProductToCart(String email, long productId, HttpSession session) {
         User user = this.userService.getUserByEmail(email);
         if (user != null) {
@@ -71,8 +76,8 @@ public class ProductService {
                     cartDetail.setPrice(p.getPrice());
                     cartDetail.setQuantity(1);
                     this.cartDetailRepository.save(cartDetail);
-                    cart.setSum(cart.getSum() + 1);
                     int sum = cart.getSum() + 1;
+                    cart.setSum(cart.getSum() + 1);
                     this.cartRepository.save(cart);
                     session.setAttribute("sum", sum);
                 } else {
@@ -84,6 +89,36 @@ public class ProductService {
 
         }
 
+    }
+
+    public void handleRemoveCartDetail(long cartDetailId, HttpSession session) {
+        Optional<CartDetail> cartDetailOptional = this.cartDetailRepository.findById(cartDetailId);
+        if (cartDetailOptional.isPresent()) {
+            CartDetail cartDetail = cartDetailOptional.get();
+            Cart currentCart = cartDetail.getCart();
+            this.cartDetailRepository.deleteById(cartDetailId);
+
+            if (currentCart.getSum() > 1) {
+                int afterSum = currentCart.getSum() - 1;
+                currentCart.setSum(afterSum);
+                session.setAttribute("sum", afterSum);
+                this.cartRepository.save(currentCart);
+            } else {
+                this.cartRepository.deleteById(currentCart.getId());
+                session.setAttribute("sum", 0);
+            }
+        }
+    }
+
+    public void handleUpdateCartBeforeCheckout(List<CartDetail> cartDetails) {
+        for (CartDetail cartDetail : cartDetails) {
+            Optional<CartDetail> cdOptional = this.cartDetailRepository.findById(cartDetail.getId());
+            if (cdOptional.isPresent()) {
+                CartDetail currentCartDetail = cdOptional.get();
+                currentCartDetail.setQuantity(cartDetail.getQuantity());
+                this.cartDetailRepository.save(currentCartDetail);
+            }
+        }
     }
 
 }
