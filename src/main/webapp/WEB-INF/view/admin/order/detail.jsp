@@ -13,7 +13,7 @@ uri="http://www.springframework.org/tags/form" %>
     />
     <meta name="description" content="Dự án laptopshop" />
     <meta name="author" content="Bạch Gia Huy" />
-    <title>Manage orders</title>
+    <title>Order detail with id = ${order.id}</title>
     <link
       href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
       rel="stylesheet"
@@ -32,14 +32,15 @@ uri="http://www.springframework.org/tags/form" %>
       <div id="layoutSidenav_content">
         <main>
           <div class="container-fluid px-4">
-            <h1 class="mt-4">Mange order</h1>
+            <h1 class="mt-4">Order detail</h1>
             <ol class="breadcrumb mb-4">
               <li class="breadcrumb-item active">
                 <a href="/admin">Dashboard</a>
               </li>
               <li class="breadcrumb-item active">
-                <a href="/admin/order">Orders</a>
+                <a href="/admin/order">Order</a>
               </li>
+              <li class="breadcrumb-item active">${order.id}</li>
             </ol>
             <div class="mt-4">
               <div class="row">
@@ -47,48 +48,52 @@ uri="http://www.springframework.org/tags/form" %>
                   <table class="table table-hover table-bordered">
                     <thead class="table-dark">
                       <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Total Price</th>
-                        <th scope="col">User</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Action</th>
+                        <th scope="col">Product</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Total price</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <c:forEach var="order" items="${orders}" varStatus="loop">
+                      <c:forEach var="orderDetail" items="${orderDetails}" varStatus="loop">
                         <tr>
-                          <th scope="row">${order.id}</th>
+                          <th scope="row">
+                            
+                            <img src="/images/product/${orderDetail.product.image}" alt="product image" class="img-fluid me-5 rounded-circle"
+                            style="width: 80px; height: 80px;">
+                          </th>
+                          <td>
+                            <a href="/product/${orderDetail.product.id}" target="_blank">
+                              ${orderDetail.product.name}
+                            </a>
+                            
+                          </td>
                           <td>
                             <fmt:formatNumber
                               type="number"
-                              value="${order.totalPrice}"
+                              value="${orderDetail.price}"
                             />
                             đ
                           </td>
-                          <td>${order.user.fullName}</td>
-                          <td>${order.status}</td>
-                          <td class="d-flex flex-column flex-md-row">
-                            <a
-                              class="btn btn-success"
-                              href="/admin/order/${order.id}"
-                              >View</a
-                            >
-                            <a
-                              class="btn btn-warning mx-0 mx-md-2 my-2 my-md-0"
-                              href="/admin/order/update/${order.id}"
-                            >
-                              Update
-                            </a>
-                            <a
-                              class="btn btn-danger"
-                              href="/admin/order/delete/${order.id}"
-                              >Delete</a
-                            >
+                          <td>${orderDetail.quantity}</td>
+                          <td>
+                            <fmt:formatNumber
+                              type="number"
+                              value="${orderDetail.price* orderDetail.quantity}"
+                            />
+                            đ
                           </td>
                         </tr>
                       </c:forEach>
+                      
                     </tbody>
                   </table>
+                  <div>
+                    <a class="btn btn-success" href="/admin/order">
+                      Back
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
