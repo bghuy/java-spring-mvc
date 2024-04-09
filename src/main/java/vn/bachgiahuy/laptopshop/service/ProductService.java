@@ -17,6 +17,9 @@ import vn.bachgiahuy.laptopshop.repository.CartRepository;
 import vn.bachgiahuy.laptopshop.repository.OrderDetailRepository;
 import vn.bachgiahuy.laptopshop.repository.OrderRepository;
 import vn.bachgiahuy.laptopshop.repository.ProductRepository;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 
 @Service
@@ -43,8 +46,8 @@ public class ProductService {
         return this.productRepository.save(product);
     }
 
-    public List<Product> getAllProducts() {
-        return this.productRepository.findAll();
+    public Page<Product> getAllProducts(Pageable page) {
+        return this.productRepository.findAll(page);
     }
 
     public Product getProductById(long id) {

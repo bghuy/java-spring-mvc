@@ -2,6 +2,8 @@ package vn.bachgiahuy.laptopshop.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import vn.bachgiahuy.laptopshop.domain.Cart;
@@ -24,8 +26,8 @@ public class OrderService {
         this.orderDetailRepository = orderDetailRepository;
     }
 
-    public List<Order> getAllOrders() {
-        return orderRepository.findAll();
+    public Page<Order> getAllOrders(Pageable page) {
+        return orderRepository.findAll(page);
     }
 
     public Order fetchOrderById(long id) {

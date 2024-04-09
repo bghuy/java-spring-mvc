@@ -10,6 +10,8 @@ import vn.bachgiahuy.laptopshop.domain.User;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 @Repository
@@ -19,4 +21,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     public void deleteById(long id);
 
     public List<Order> findByUser(User user);
+
+    List<Order> findAll();
+
+    Page<Order> findAll(Pageable page);
 }
