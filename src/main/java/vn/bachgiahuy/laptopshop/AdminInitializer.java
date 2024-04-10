@@ -28,9 +28,11 @@ public class AdminInitializer implements ApplicationRunner {
             User admin = new User();
             admin.setEmail("laptopshopAdmin@gmail.com");
             admin.setFullName("laptopshop admin");
-            admin.setPassword(passwordEncoder.encode("admin123"));// Mật khẩu được mã hóa trước khi lưu vào cơ sở dữ
-                                                                  // liệu
-            admin.setRole(this.userService.getRoleByName("ADMIN")); // Đặt quyền hạn cho tài khoản admin
+            admin.setPassword(passwordEncoder.encode("admin123"));// Mật khẩu được mã hóa
+            // trước khi lưu vào cơ sở dữ
+            // liệu
+            admin.setRole(this.userService.getRoleByName("ADMIN")); // Đặt quyền hạn cho
+            // tài khoản admin
             userRepository.save(admin);
         }
     }
