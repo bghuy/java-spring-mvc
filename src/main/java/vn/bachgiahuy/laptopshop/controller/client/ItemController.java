@@ -7,13 +7,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import vn.bachgiahuy.laptopshop.domain.Cart;
 import vn.bachgiahuy.laptopshop.domain.CartDetail;
 import vn.bachgiahuy.laptopshop.domain.Product;
+import vn.bachgiahuy.laptopshop.domain.Product_;
 import vn.bachgiahuy.laptopshop.domain.User;
+import vn.bachgiahuy.laptopshop.domain.dto.ProductCriterialDTO;
 import vn.bachgiahuy.laptopshop.service.CartService;
 import vn.bachgiahuy.laptopshop.service.ProductService;
 import vn.bachgiahuy.laptopshop.service.UserService;
@@ -28,6 +31,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 
 @Controller
@@ -152,12 +156,12 @@ public class ItemController {
     }
 
     @GetMapping("/products")
-    public String getProductPage(Model model, @RequestParam("page") Optional<String> pageOptional) {
+    public String getProductPage(Model model, ProductCriterialDTO productCriterialDTO, HttpServletRequest request) {
         int page = 1;
         try {
-            if (pageOptional.isPresent()) {
+            if (productCriterialDTO.getPage().isPresent()) {
                 // convert from String to int
-                page = Integer.parseInt(pageOptional.get());
+                page = Integer.parseInt(productCriterialDTO.getPage().get());
             } else {
                 // page = 1
             }
@@ -165,14 +169,32 @@ public class ItemController {
             // page = 1
             // TODO: handle exception
         }
+        Pageable pageable = PageRequest.of(page - 1, 3);
+        if (productCriterialDTO.getSort() != null && productCriterialDTO.getSort().isPresent()) {
+            String sort = productCriterialDTO.getSort().get();
+            if (sort.equals("gia-tang-dan")) {
+                pageable = PageRequest.of(page - 1, 3, Sort.by(Product_.PRICE).ascending());
+            } else if (sort.equals("gia-giam-dan")) {
+                pageable = PageRequest.of(page - 1, 3, Sort.by(Product_.PRICE).descending());
+            } else {
+                pageable = PageRequest.of(page - 1, 3);
+            }
+        }
 
-        Pageable pageable = PageRequest.of(page - 1, 6);
-        Page<Product> prs = this.productService.getAllProducts(pageable);
-        List<Product> products = prs.getContent();
+        Page<Product> prs = this.productService.getAllProductsSpec(pageable, productCriterialDTO);
+
+        List<Product> products = prs.getContent().size() > 0 ? prs.getContent() : new ArrayList<Product>();
+
+        String qs = request.getQueryString();
+        if (qs != null && !qs.isBlank()) {
+            // remove page
+            qs = qs.replace("page=" + page, "");
+        }
 
         model.addAttribute("products", products);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", prs.getTotalPages());
+        model.addAttribute("queryString", qs);
         return "client/product/show";
     }
 

@@ -11,15 +11,20 @@ import vn.bachgiahuy.laptopshop.domain.CartDetail;
 import vn.bachgiahuy.laptopshop.domain.Order;
 import vn.bachgiahuy.laptopshop.domain.OrderDetail;
 import vn.bachgiahuy.laptopshop.domain.Product;
+import vn.bachgiahuy.laptopshop.domain.Product_;
 import vn.bachgiahuy.laptopshop.domain.User;
+import vn.bachgiahuy.laptopshop.domain.dto.ProductCriterialDTO;
 import vn.bachgiahuy.laptopshop.repository.CartDetailRepository;
 import vn.bachgiahuy.laptopshop.repository.CartRepository;
 import vn.bachgiahuy.laptopshop.repository.OrderDetailRepository;
 import vn.bachgiahuy.laptopshop.repository.OrderRepository;
 import vn.bachgiahuy.laptopshop.repository.ProductRepository;
+import vn.bachgiahuy.laptopshop.service.specification.ProductSpecs;
 
+import org.springframework.boot.autoconfigure.rsocket.RSocketProperties.Server.Spec;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 
 @Service
@@ -48,6 +53,63 @@ public class ProductService {
 
     public Page<Product> getAllProducts(Pageable page) {
         return this.productRepository.findAll(page);
+    }
+
+    // test
+    public Page<Product> getAllProductsSpec(Pageable page, ProductCriterialDTO productCriterialDTO) {
+        if (productCriterialDTO.getTarget() == null && productCriterialDTO.getFactory() == null
+                && productCriterialDTO.getPrice() == null) {
+            return this.productRepository.findAll(page);
+        }
+        Specification<Product> combinedSpec = Specification.where(null);
+        if (productCriterialDTO.getTarget() != null && productCriterialDTO.getTarget().isPresent()) {
+            Specification<Product> currentSpec = ProductSpecs.matchListTarget(productCriterialDTO.getTarget().get());
+            combinedSpec = combinedSpec.and(currentSpec);
+        }
+        if (productCriterialDTO.getFactory() != null && productCriterialDTO.getFactory().isPresent()) {
+            Specification<Product> currentSpec = ProductSpecs.hasFactories(productCriterialDTO.getFactory().get());
+            combinedSpec = combinedSpec.and(currentSpec);
+        }
+        if (productCriterialDTO.getPrice() != null && productCriterialDTO.getPrice().isPresent()) {
+            Specification<Product> currentSpecs = this.buildPriceSpecification(productCriterialDTO.getPrice().get());
+            combinedSpec = combinedSpec.and(currentSpecs);
+        }
+        return this.productRepository.findAll(combinedSpec, page);
+    }
+
+    public Specification<Product> buildPriceSpecification(List<String> price) {
+        Specification<Product> combinedSpec = Specification.where(null);
+        for (String p : price) {
+            double min = 0;
+            double max = 0;
+
+            // Set the appropriate min and max based on the price range string
+            switch (p) {
+                case "duoi-10-trieu":
+                    min = 0;
+                    max = 10000000;
+                    break;
+                case "10-15-trieu":
+                    min = 10000000;
+                    max = 15000000;
+                    break;
+                case "15-20-trieu":
+                    min = 15000000;
+                    max = 20000000;
+                    break;
+                case "tren-20-trieu":
+                    min = 20000000;
+                    max = 200000000;
+                    break;
+            }
+
+            if (min != 0 && max != 0) {
+                Specification<Product> rangeSpec = ProductSpecs.hasMultiplePriceBetween(min, max);
+                combinedSpec = combinedSpec.or(rangeSpec);
+            }
+        }
+
+        return combinedSpec;
     }
 
     public Product getProductById(long id) {
